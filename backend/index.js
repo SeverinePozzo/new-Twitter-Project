@@ -12,12 +12,7 @@ app.use(cors())
 app.use(bodyParser.json())
 
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-});
-
-//you fetch the tasks from the database - all from the Tweets database
-const tweets = [
+//you fetch the tasks from the database - all from the Tweets database//
 app.get('/tweets', (req, res) => {
     const tweets = [];
     database.query("SELECT * FROM tweets;", (errors, result) => {
@@ -27,7 +22,7 @@ app.get('/tweets', (req, res) => {
        res.json({tweets: results}); 
     });
 })
-]
+
 
 
 app.post ('/tweet', (req, res) => {
@@ -38,9 +33,18 @@ app.post ('/tweet', (req, res) => {
       throw new Error;
     }
 
-    res.json({task:result});
-
+    res.json({tweets:result});
+  });
 })
+
+app.get ('/tweet', (req, res) => {
+  database.query(`DELETE FROM tweets WHERE id=1 limit 1);`, (error, result) => {
+  if (error) {
+    throw new Error;
+  }
+
+  res.json({tweets:result});
+});
 })
 
 app.listen(3000, () => {

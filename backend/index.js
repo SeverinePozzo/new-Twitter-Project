@@ -1,10 +1,20 @@
-const express = require('express')
-const app = express()
+const express = require('express');
+const app = express();
+
+const cors = require('cors');
+const bodyParser = require('body-parser');
+
 const database = require('./src/database.js');
+
+
+
+app.use(cors())
+app.use(bodyParser.json())
+
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
-})
+});
 
 //you fetch the tasks from the database - all from the Tweets database
 const tweets = [
@@ -23,13 +33,14 @@ app.get('/tweets', (req, res) => {
 app.post ('/tweet', (req, res) => {
     let tweet = req.body.tweet;
 
-    database.query(`INSERT INTO tweets (tweet) VALUES ('${tweet}');`);
+    database.query(`INSERT INTO tweets (tweet) VALUES ('${tweet}');`, (error, result) => {
     if (error) {
       throw new Error;
     }
 
-    res.json({message: "Task saved"});
+    res.json({task:result});
 
+})
 })
 
 app.listen(3000, () => {

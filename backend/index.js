@@ -14,37 +14,38 @@ app.use(bodyParser.json())
 
 //you fetch the tasks from the database - all from the Tweets database//
 app.get('/tweets', (req, res) => {
-    const tweets = [];
-    database.query("SELECT * FROM tweets;", (errors, result) => {
+    database.query("SELECT * FROM tweets order by id desc;", (errors, result) => {
         if(errors) {
             return res.json({message: 'Something went wrong..'});
         }
-       res.json({tweets: results}); 
+       res.json({tweets: result});
+       console.log(result);
     });
 })
 
 
 
 app.post ('/tweet', (req, res) => {
-    let tweet = req.body.tweet;
-
+    let tweet = req.body.Value;
+    console.log(tweet);
     database.query(`INSERT INTO tweets (tweet) VALUES ('${tweet}');`, (error, result) => {
     if (error) {
       throw new Error;
     }
-
     res.json({tweets:result});
   });
 })
 
-app.get ('/tweet', (req, res) => {
-  database.query(`DELETE FROM tweets WHERE id=1 limit 1);`, (error, result) => {
+app.delete ('/remove', (req, res) => {
+  let tweet = req;
+  console.log(tweet);
+  return;
+  database.query(`DELETE FROM tweets WHERE id=('${tweet.id}')`, (error, result) => {
   if (error) {
     throw new Error;
   }
-
-  res.json({tweets:result});
-});
+    res.json({tweets:result});
+  });
 })
 
 app.listen(3000, () => {

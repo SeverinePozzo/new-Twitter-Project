@@ -6,7 +6,7 @@ const connection = mysql.createConnection({
 
    host: '127.0.0.1',
    user: 'root',
-   password: 'root',
+   password: 'nermin1975',
    database: 'twitter'
 })
 
